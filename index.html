@@ -226,9 +226,12 @@
         
         .skills-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three columns for first 3 items */
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            position: relative;
+        }
+        
+        .skills-container > .skill-category:last-child {
+            grid-column: 2; /* Place in center column only */
         }
         
         .skill-category {
@@ -237,12 +240,6 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
-        }
-
-        .skills-container > .skill-category:last-child {
-            grid-column: 1 / -1; /* Make it span all columns */
-            max-width: 300px; /* Same width as other cards */
-            margin: 0 auto; /* Center horizontally */
         }
         
         .skill-category:hover {
