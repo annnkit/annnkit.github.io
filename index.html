@@ -545,6 +545,79 @@
         background: #1e1e1e !important;
         border: 1px solid #333;
         }
+
+        /* Luffy Mascot Styles */
+        #toggle-mascot {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          z-index: 1000;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: var(--primary);
+          color: white;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+        }
+        
+        #toggle-mascot:hover {
+          transform: scale(1.1);
+          background: var(--secondary);
+        }
+        
+        #luffy-mascot {
+          position: fixed;
+          bottom: 80px;
+          left: 20px;
+          z-index: 1000;
+          transition: all 0.3s ease;
+          transform-origin: bottom left;
+        }
+        
+        #luffy-image {
+          width: 100px;
+          height: auto;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        
+        #luffy-image:hover {
+          transform: scale(1.05) rotate(5deg);
+        }
+        
+        #close-mascot {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          background: var(--secondary);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+          font-size: 0.9rem;
+          cursor: pointer;
+          display: none;
+        }
+        
+        #luffy-mascot:hover #close-mascot {
+          display: block;
+        }
+        
+        .mascot-hidden {
+          opacity: 0;
+          transform: scale(0);
+          pointer-events: none;
+        }
+        
+        .mascot-visible {
+          opacity: 1;
+          transform: scale(1);
+        }
     </style>
 </head>
 <body>
@@ -954,7 +1027,56 @@
         document.body.classList.toggle('dark-mode');
         toggleBtn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
         });
+
+        // Luffy Mascot Toggle
+        const toggleMascot = document.getElementById('toggle-mascot');
+        const luffyMascot = document.getElementById('luffy-mascot');
+        const closeMascot = document.getElementById('close-mascot');
+        
+        // Toggle Luffy visibility
+        toggleMascot.addEventListener('click', () => {
+          luffyMascot.classList.toggle('mascot-hidden');
+          luffyMascot.classList.toggle('mascot-visible');
+        });
+        
+        // Close button
+        closeMascot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          luffyMascot.classList.add('mascot-hidden');
+          luffyMascot.classList.remove('mascot-visible');
+        });
+        
+        // Make Luffy draggable (optional)
+        let isDragging = false;
+        let offsetX, offsetY;
+        
+        luffyMascot.addEventListener('mousedown', (e) => {
+          if (e.target === luffyMascot || e.target === document.getElementById('luffy-image')) {
+            isDragging = true;
+            offsetX = e.clientX - luffyMascot.getBoundingClientRect().left;
+            offsetY = e.clientY - luffyMascot.getBoundingClientRect().top;
+            luffyMascot.style.cursor = 'grabbing';
+          }
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+          if (isDragging) {
+            luffyMascot.style.left = `${e.clientX - offsetX}px`;
+            luffyMascot.style.top = `${e.clientY - offsetY}px`;
+          }
+        });
+        
+        document.addEventListener('mouseup', () => {
+          isDragging = false;
+          luffyMascot.style.cursor = 'grab';
+        });
         
     </script>
+    <!-- Luffy Mascot Toggle -->
+<div id="luffy-mascot" class="mascot-hidden">
+  <img src="https://i.imgur.com/3vRlY9a.png" alt="Luffy" id="luffy-image">
+  <button id="close-mascot">×</button>
+</div>
+<button id="toggle-mascot" title="Toggle Luffy Mascot">🏴‍☠️</button>
 </body>
 </html>
